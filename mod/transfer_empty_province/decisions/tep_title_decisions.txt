@@ -1,0 +1,86 @@
+title_decisions = {
+
+
+    give_empty_province_to_duke = {
+
+        filter = owned
+        ai_target_filter = owned
+
+        from_potential = {
+            higher_real_tier_than = DUKE
+            NOT = {
+                government = nomadic_goverment
+            }
+        }
+
+        potential = {
+            holder = FROM
+            tier = COUNT
+            location = {
+                NOR = {
+                    has_castle = yes
+                    has_city = yes
+                    has_temple = yes
+                    has_tribal = yes
+                    has_settlement_construction = yes
+                }
+            }
+        }
+
+        allow = {
+            can_be_given_away = yes   # not under siege, not occupied, not contested in war
+
+            location = {   # can't use duchy from county scope???
+                duchy = {
+                    has_holder = yes
+                    holder_scope = {
+                        is_liege_or_above = FROM
+                    }
+                }
+            }
+        }
+
+        effect = {
+            location = {
+                duchy = {
+                    holder_scope = {
+                        grant_title_no_opinion = ROOT
+                    }
+                }
+            }
+        }
+
+        ai_will_do = {
+            factor = 1
+
+            modifier = {
+                factor = 0
+                FROM = {
+                    OR = {
+                        government = tribal_government  # I could build a tribe using prestige
+                        wealth = 150                    # I could build a settlement using my excess cash
+                        trait = greedy                  # MINE MINE MINE
+                        trait = ambitious
+                    }
+                }
+            }
+
+            modifier = {
+                factor = 0
+                location = {
+                    duchy = {
+                        holder_scope = {
+                            liege = {
+                                NOT = {
+                                    character = FROM        # I am not the direct liege of the duke
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+}
